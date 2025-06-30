@@ -24,3 +24,28 @@ Cuando se envia un mensaje a un canal, enviamos un duplicado del mensaje a un ca
 
 Finalmente, como el almacén puede crecer mucho, es recomendable implementar un mecanismo de depuración o respaldo para gestionar los mensajes antiguos.
 
+### Justificación de uso
+
+El patrón **Message Store** es útil en sistemas donde los mensajes se transmiten de manera asíncrona entre componentes desacoplados y existe la necesidad de auditar, monitorear o generar reportes sobre el flujo de mensajes. Permite registrar información clave de cada mensaje sin afectar el rendimiento ni la naturaleza transitoria del sistema de mensajería.
+
+#### ¿En qué contexto o problema empresarial resulta útil?
+
+Este patrón es especialmente valioso en empresas que manejan procesos críticos o regulados, donde es necesario:
+- Auditar el flujo de mensajes entre sistemas (por ejemplo, en banca, salud o logística).
+- Generar reportes históricos de actividad.
+- Analizar tiempos de entrega y detectar cuellos de botella.
+- Cumplir con normativas de trazabilidad y retención de información.
+
+### Caso de uso propuesto
+
+**Escenario:**  
+Una empresa de logística utiliza un sistema de mensajería para coordinar la entrega de paquetes entre diferentes centros de distribución. Cada vez que un paquete cambia de estado (recibido, en tránsito, entregado), se envía un mensaje a través del sistema.
+
+**Aplicación del patrón:**  
+Para poder auditar el recorrido de cada paquete y generar reportes de desempeño, se implementa un Message Store. Cada mensaje enviado por el sistema se duplica y almacena en una base de datos central, registrando el ID del paquete, el canal y la marca de tiempo.
+
+**Entidades o sistemas que intervienen:**
+- **Productores de mensajes:** Sistemas que generan eventos de cambio de estado del paquete.
+- **Sistema de mensajería:** Middleware que transporta los mensajes.
+- **Message Store:** Base de datos central donde se almacenan los mensajes duplicados.
+- **Herramientas de monitoreo y reporte:** Consultan el Message Store para generar
