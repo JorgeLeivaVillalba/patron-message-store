@@ -17,7 +17,7 @@ public class MessageRoute extends RouteBuilder {
 
         from("timer:messageTimer?period=2000")
             .routeId("generateMessage")
-            .setBody().simple("Mensaje generado en ${date:now:yyyy-MM-dd HH:mm:ss}")
+            .setBody().simple("Mensaje generado en fecha: ${date:now:yyyy-MM-dd HH:mm:ss}")
             .setHeader("messageId", simple("${id}"))
             .setHeader("timestamp", simple("${date:now:yyyy-MM-dd HH:mm:ss}"))
             .multicast()

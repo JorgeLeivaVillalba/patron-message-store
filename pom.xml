@@ -14,7 +14,6 @@
     </properties>
 
     <dependencies>
-
         <dependency> 
             <groupId>org.apache.camel</groupId> 
             <artifactId>camel-main</artifactId> 
@@ -41,4 +40,5 @@
             <version>2.0.12</version>
         </dependency>
     </dependencies>
+    
 </project>

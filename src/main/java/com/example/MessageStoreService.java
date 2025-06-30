@@ -18,30 +18,29 @@ public class MessageStoreService {
         this.dataSource = ds;
     }
 
-    public void createTable() throws Exception {
+    public void createTable() throws Exception { //Inicializa la tabla en memoria h2
         try (Connection conn = dataSource.getConnection();
-             Statement stmt = conn.createStatement()) {
+                Statement stmt = conn.createStatement()) {
             stmt.execute("""
-                CREATE TABLE IF NOT EXISTS message_store (
-                    id VARCHAR(100),
-                    timestamp VARCHAR(30),
-                    content VARCHAR(255)
-                )
-            """);
+                        CREATE TABLE IF NOT EXISTS message_store (
+                            id VARCHAR(100),
+                            timestamp VARCHAR(30),
+                            content VARCHAR(255)
+                        )
+                    """);
         }
     }
 
-    public void storeMessage(@Body String body, @Headers Map<String, Object> headers) {
-    // Ahora 'headers' nunca será null
-    try (Connection conn = dataSource.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(
-                 "INSERT INTO message_store (id, timestamp, content) VALUES (?, ?, ?)")) {
-        stmt.setString(1, headers.get("messageId").toString());
-        stmt.setString(2, headers.get("timestamp").toString());
-        stmt.setString(3, body);
-        stmt.executeUpdate();
-    } catch (Exception e) {
-        e.printStackTrace();
+    public void storeMessage(@Body String body, @Headers Map<String, Object> headers) { // Inserta los mensajes a la tabla
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(
+                        "INSERT INTO message_store (id, timestamp, content) VALUES (?, ?, ?)")) {
+            stmt.setString(1, headers.get("messageId").toString());
+            stmt.setString(2, headers.get("timestamp").toString());
+            stmt.setString(3, body);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
 }
