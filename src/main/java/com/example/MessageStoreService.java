@@ -20,8 +20,9 @@ public class MessageStoreService {
 
     public void createTable() throws Exception { //Inicializa la tabla en memoria h2
         try (Connection conn = dataSource.getConnection();
-                Statement stmt = conn.createStatement()) {
-            stmt.execute("""
+                Statement stmt = conn.createStatement()) { 
+                    // Crea la tabla con columnas para id, timestamp y contenido del mensaje
+            stmt.execute(""" 
                         CREATE TABLE IF NOT EXISTS message_store (
                             id VARCHAR(100),
                             timestamp VARCHAR(30),
